@@ -604,7 +604,7 @@ async function analyze(ticker) {{
   selTicker = ticker;
   render();
 
-const RENDER_URL = 'https://stock-screener-wif9.onrender.com';
+const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
 
   const aiTextEl = document.getElementById(`ai-text-${{ticker}}`);
   try {{
