@@ -629,7 +629,7 @@ const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
             style="margin-left:auto;border:none;background:none;cursor:pointer;font-size:18px;color:#868e96">×</button>
         </div>
         <div class="ai-metrics" style="margin-bottom:10px">${{metricsHtml}}</div>
-        <div id="ai-text-${{ticker}}" style="font-size:13px;line-height:1.8;color:#343a40;white-space:pre-wrap">분석 중...</div>
+        <div id="ai-text-${{ticker.replace(/[^a-zA-Z0-9]/g,'_')}}" style="font-size:13px;line-height:1.8;color:#343a40;white-space:pre-wrap">분석 중...</div>
       </div>
     </td>`;
 
@@ -649,7 +649,8 @@ const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
     tbody.appendChild(panelRow);
   }}
 
-  const aiTextEl = document.getElementById(`ai-text-${{ticker}}`);
+  const safeId = ticker.replace(/[^a-zA-Z0-9]/g,'_');
+  const aiTextEl = document.getElementById(`ai-text-${{safeId}}`);
   try {{
     const res = await fetch(`${{RENDER_URL}}/api/analyze`, {{
       method: 'POST',
