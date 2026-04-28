@@ -1,13 +1,9 @@
-"""
-실행: python app.py
-접속: http://localhost:5000
-"""
 import json, os, requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder="static", static_url_path="")
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 CACHE     = "cache.json"
 GROQ_KEY  = os.getenv("GROQ_API_KEY")
