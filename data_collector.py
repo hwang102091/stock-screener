@@ -606,6 +606,49 @@ async function analyze(ticker) {{
 
 const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
 
+  // 기존 패널 제거
+  const existing = document.getElementById('inline-panel');
+  if (existing) existing.remove();
+
+  // 패널 생성 및 DOM 삽입
+  const metricsHtml = [
+    ['PER', fmt(s.per)+'배'],['PBR', fmt(s.pbr)+'배'],
+    ['ROE', fmt(s.roe)+'%'],['배당', fmt(s.div)+'%'],['점수', s.score]
+  ].map(([l,v]) => `<div class="metric"><div class="metric-label">${{l}}</div><div class="metric-val">${{v}}</div></div>`).join('');
+
+  const panelRow = document.createElement('tr');
+  panelRow.id = 'inline-panel';
+  panelRow.innerHTML = `
+    <td colspan="8" style="padding:0;background:#f8f9fa;border-bottom:2px solid #228be6">
+      <div style="padding:16px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span class="badge ${{s.market==='KR'?'badge-kr':'badge-us'}}">${{s.market}}</span>
+          <strong style="font-size:14px">${{s.name}}</strong>
+          <span style="font-size:12px;color:#868e96">${{s.ticker}} · ${{s.sector}}</span>
+          <button onclick="document.getElementById('inline-panel').remove();selTicker=null;render();"
+            style="margin-left:auto;border:none;background:none;cursor:pointer;font-size:18px;color:#868e96">×</button>
+        </div>
+        <div class="ai-metrics" style="margin-bottom:10px">${{metricsHtml}}</div>
+        <div id="ai-text-${{ticker}}" style="font-size:13px;line-height:1.8;color:#343a40;white-space:pre-wrap">분석 중...</div>
+      </div>
+    </td>`;
+
+  const tbody = document.getElementById('tbody');
+  const rows = tbody.querySelectorAll('tr');
+  let targetRow = null;
+  for (const row of rows) {{
+    if (row.innerHTML.includes(`'${{ticker}}'`)) {{
+      targetRow = row;
+      break;
+    }}
+  }}
+  if (targetRow) {{
+    targetRow.after(panelRow);
+    panelRow.scrollIntoView({{behavior:'smooth', block:'nearest'}});
+  }} else {{
+    tbody.appendChild(panelRow);
+  }}
+
   const aiTextEl = document.getElementById(`ai-text-${{ticker}}`);
   try {{
     const res = await fetch(`${{RENDER_URL}}/api/analyze`, {{
