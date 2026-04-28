@@ -1,0 +1,5 @@
+.env
+cache.json
+mapping.json
+__pycache__/
+*.pyc
