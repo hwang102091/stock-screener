@@ -247,7 +247,9 @@ const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
     tbody.appendChild(panelRow);
   }
 
-  const safeId = ticker.replace(/[^a-zA-Z0-9]/g,'_');
+const safeId = ticker.replace(/[^a-zA-Z0-9]/g,'_');
+  const chartTicker = s.market === 'KR' ? `${ticker}.KS` : ticker;
+  fetchChart(chartTicker, `chart-${safeId}`);
   const aiTextEl = document.getElementById(`ai-text-${safeId}`);
   try {
     const res = await fetch(`${RENDER_URL}/api/analyze`, {
