@@ -628,8 +628,17 @@ const RENDER_URL = 'https://stock-screener-wi19.onrender.com';
           <button onclick="document.getElementById('inline-panel').remove();selTicker=null;render();"
             style="margin-left:auto;border:none;background:none;cursor:pointer;font-size:18px;color:#868e96">×</button>
         </div>
-        <div class="ai-metrics" style="margin-bottom:10px">${{metricsHtml}}</div>
-        <div id="ai-text-${{ticker.replace(/[^a-zA-Z0-9]/g,'_')}}" style="font-size:13px;line-height:1.8;color:#343a40;white-space:pre-wrap">분석 중...</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:12px;font-weight:500;color:#495057;margin-bottom:8px">📈 주가 차트</div>
+            <div id="chart-${{ticker.replace(/[^a-zA-Z0-9]/g,'_')}}" style="width:100%;height:280px"></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:#495057;margin-bottom:8px">🤖 AI 분석</div>
+            <div class="ai-metrics" style="margin-bottom:10px">${{metricsHtml}}</div>
+            <div id="ai-text-${{ticker.replace(/[^a-zA-Z0-9]/g,'_')}}" style="font-size:12px;line-height:1.8;color:#343a40;white-space:pre-wrap">분석 중...</div>
+          </div>
+        </div>
       </div>
     </td>`;
 
